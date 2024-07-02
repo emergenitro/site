@@ -1,6 +1,6 @@
 import React from 'react'
-import { Button, Text, Flex, Close, Divider } from 'theme-ui'
 import Balancer from 'react-wrap-balancer'
+import { Button, Close, Divider, Flex, Text } from 'theme-ui'
 import Quantity from './quantity'
 /** @jsxImportSource theme-ui */
 const Prizes = ({
@@ -36,7 +36,7 @@ const Prizes = ({
   return (
     <Flex
       sx={{
-        background: '#09AFB4',
+        background: hoursBalance && hoursBalance / cost >= 1 ? '#09AFB4' : '#808080',
         borderRadius: '10px',
         flexDirection: 'column',
         justifyContent: 'space-between',
