@@ -61,7 +61,7 @@ const Prizes = ({
         >
           <img
             src={img}
-            sx={{ height: 'auto', maxWidth: '280px', maxHeight: '250px' }}
+            sx={{ height: 'auto', maxWidth: '280px', maxHeight: '250px', filter: hoursBalance && hoursBalance / cost >= 1 ? 'none' : 'grayscale(1)' }}
             alt={text}
           />
         </Flex>
@@ -104,15 +104,6 @@ const Prizes = ({
       </Flex>
 
       <Flex sx={{ flexDirection: 'column' }}>
-        <Balancer>
-          <Text
-            as="p"
-            variant="caption"
-            sx={{ color: '#FFEEC6', mt: 0, mb: 2 }}
-          >
-            <em>You can order up to {quantity} of these</em>
-          </Text>
-        </Balancer>
 
         {link && (<Flex>
           {
