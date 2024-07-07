@@ -20,6 +20,7 @@ const Prizes = ({
   index,
   hoursBalance = null,
   stock,
+  inStock = true,
   ...props
 }) => {
   const parsedFulfillmentDesc = fulfillmentDescription?.replace(
@@ -36,7 +37,7 @@ const Prizes = ({
   return (
     <Flex
       sx={{
-        background: hoursBalance && hoursBalance / cost >= 1 ? '#09AFB4' : '#808080',
+        background: ((hoursBalance && hoursBalance / cost >= 1) && inStock) ? '#09AFB4' : '#808080',
         borderRadius: '10px',
         flexDirection: 'column',
         justifyContent: 'space-between',
@@ -61,11 +62,12 @@ const Prizes = ({
         >
           <img
             src={img}
-            sx={{ height: 'auto', maxWidth: '280px', maxHeight: '250px', filter: hoursBalance && hoursBalance / cost >= 1 ? 'none' : 'grayscale(1)' }}
+            sx={{ height: 'auto', maxWidth: '280px', maxHeight: '250px', filter: ((hoursBalance && hoursBalance / cost >= 1) && inStock) ? 'none' : 'grayscale(1)'}}
             alt={text}
+            
           />
         </Flex>
-        {stock && stock != null && stock > 0 && stock <= 100 && (
+        {inStock && stock != null && stock > 0 && stock <= 100 && (
           <Text
             sx={{
               background: '#CC6CE7',
@@ -102,6 +104,7 @@ const Prizes = ({
           />
         </Balancer>
       </Flex>
+      {inStock && (
 
       <Flex sx={{ flexDirection: 'column' }}>
 
@@ -110,10 +113,10 @@ const Prizes = ({
             // only show the quantity dropdown if you have enough hours to buy at least 2 of the item
             (hoursBalance ? hoursBalance / cost < 2 : null) ? null : (
               <Quantity
-                numOptions={Math.min(quantity, Math.floor(hoursBalance / cost))}
-                label={text}
-                onQuantityChange={onQuantityChange}
-                index={index}
+              numOptions={Math.min(quantity, Math.floor(hoursBalance / cost))}
+              label={text}
+              onQuantityChange={onQuantityChange}
+              index={index}
               />
             )
           }
@@ -121,15 +124,15 @@ const Prizes = ({
             // only show the buy button if you have enough hours to buy at least 1 of the item
             (hoursBalance ? hoursBalance / cost < 1 : null) ? null : (
               <Button
-                sx={{
-                  borderRadius: '5px',
-                  color: '#FFEEC6',
-                  backgroundColor: '#09878b',
-                  width: 'fit-content'
-                }}
-                as="a"
-                href={link}
-                className="gaegu"
+              sx={{
+                borderRadius: '5px',
+                color: '#FFEEC6',
+                backgroundColor: '#09878b',
+                width: 'fit-content'
+              }}
+              as="a"
+              href={link}
+              className="gaegu"
               >
                 Buy
               </Button>
@@ -138,6 +141,7 @@ const Prizes = ({
         </Flex>
         )}
       </Flex>
+        )}
 
       <Text
         sx={{
@@ -152,9 +156,11 @@ const Prizes = ({
         variant="headline"
         className="gaegu"
       >
-        {cost} {link ? '🎟️' : cost == 1 ? 'ticket' : 'tickets'}
+        {cost} 🎟️
       </Text>
-      <Text
+      {inStock && (
+
+        <Text
         variant="headline"
         sx={{
           position: 'absolute',
@@ -168,24 +174,25 @@ const Prizes = ({
         onClick={() => {
           document.getElementById(`${parsedFullName}-info`).showModal()
         }}
-      >
+        >
         📦
       </Text>
+    )}
       <dialog
-        id={`${parsedFullName}-info`}
-        sx={{
-          background: '#09AFB4',
-          borderRadius: '10px',
-          flexDirection: 'column',
-          padding: '30px',
-          border: 'none',
-          scrollbarWidth: 'none',
-          textAlign: 'center',
-          maxWidth: '400px',
-          '@media (max-width: 400px)': {
-            maxWidth: '300px'
-          }
-        }}
+      id={`${parsedFullName}-info`}
+      sx={{
+        background: '#09AFB4',
+        borderRadius: '10px',
+        flexDirection: 'column',
+        padding: '30px',
+        border: 'none',
+        scrollbarWidth: 'none',
+        textAlign: 'center',
+        maxWidth: '400px',
+        '@media (max-width: 400px)': {
+          maxWidth: '300px'
+        }
+      }}
       >
         <Close
           sx={{
